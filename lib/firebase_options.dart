@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,15 +49,6 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyA9RhoQcKWQ5ClsbDJ6OdK_zWa8HDXa3Ng',
-    appId: '1:12513700806:web:3067944b605c0122b760c7',
-    messagingSenderId: '12513700806',
-    projectId: 'chat-test-c3fd9',
-    authDomain: 'chat-test-c3fd9.firebaseapp.com',
-    storageBucket: 'chat-test-c3fd9.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBrKX5d_-4too-gsdvnha8knh_6uYybyi0',
     appId: '1:12513700806:android:c8e9d9048b318fa4b760c7',
@@ -66,15 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '12513700806',
     projectId: 'chat-test-c3fd9',
     storageBucket: 'chat-test-c3fd9.appspot.com',
+    androidClientId: '12513700806-qj44q107r8mbqalubithqgmsdi3humd4.apps.googleusercontent.com',
+    iosClientId: '12513700806-npva59do60sp29tthip06eaba9lirecn.apps.googleusercontent.com',
     iosBundleId: 'com.example.chat',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBqDYqGPAtX_E3GKmPValkSlo5UtjINU8Q',
-    appId: '1:12513700806:ios:a5c6c99f1ebbcc1db760c7',
-    messagingSenderId: '12513700806',
-    projectId: 'chat-test-c3fd9',
-    storageBucket: 'chat-test-c3fd9.appspot.com',
-    iosBundleId: 'com.example.chat.RunnerTests',
   );
 }
