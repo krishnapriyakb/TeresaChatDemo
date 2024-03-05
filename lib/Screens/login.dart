@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:chat/Screens/home_screen.dart';
 import 'package:chat/helper/dialogs.dart';
+import 'package:chat/services/apis.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -54,10 +55,12 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       // Once signed in, return the UserCredential
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+      return await APIs.auth.signInWithCredential(credential);
     } catch (e) {
-      print("signin with google :$e");
-      Dialogs.showSnackbar(context, e.toString());
+      if (kDebugMode) {
+        print("signin with google :$e");
+      }
+      Dialogs.showSnackbar(context, "check your internet connection and please try again");
     }
     return null;
   }
@@ -66,11 +69,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: ElevatedButton(
-              onPressed: () {
-                _signInGoogle();
-              },
-              child: const Text("Login with google"))),
+        child: ElevatedButton(
+          onPressed: () {
+            _signInGoogle();
+          },
+          child: const Text("Login with google"),
+        ),
+      ),
     );
   }
 }
