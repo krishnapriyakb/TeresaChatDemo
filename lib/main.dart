@@ -1,5 +1,5 @@
-import 'package:chat/Screens/home_screen.dart';
 import 'package:chat/Screens/login.dart';
+import 'package:chat/Screens/splash.dart';
 import 'package:chat/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Flutter Demo',
-      home: LoginPage(),
+      home: SplashScreen(),
     );
   }
 }

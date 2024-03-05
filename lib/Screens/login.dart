@@ -1,5 +1,5 @@
+import 'dart:developer';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:chat/Screens/home_screen.dart';
 import 'package:chat/helper/dialogs.dart';
@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
           print('User:${user.user}');
         }
         if (kDebugMode) {
-          print("userAdditionalInfo:${user.additionalUserInfo}");
+          log("userAdditionalInfo:${user.additionalUserInfo}");
         }
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const HomePage()));
@@ -60,7 +60,8 @@ class _LoginPageState extends State<LoginPage> {
       if (kDebugMode) {
         print("signin with google :$e");
       }
-      Dialogs.showSnackbar(context, "check your internet connection and please try again");
+      Dialogs.showSnackbar(
+          context, "check your internet connection and please try again");
     }
     return null;
   }

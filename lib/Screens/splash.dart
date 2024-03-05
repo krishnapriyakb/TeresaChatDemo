@@ -4,7 +4,6 @@ import 'package:chat/Screens/home_screen.dart';
 import 'package:chat/Screens/login.dart';
 import 'package:chat/services/apis.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
