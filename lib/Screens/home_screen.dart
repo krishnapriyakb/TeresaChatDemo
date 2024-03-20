@@ -1,9 +1,10 @@
-import 'dart:convert';
 import 'dart:developer';
-
+import 'package:chat/Screens/login.dart';
+import 'package:chat/Screens/profile.dart';
+import 'package:chat/models/user_modal.dart';
 import 'package:chat/services/apis.dart';
 import 'package:chat/widgets/user_card.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -15,7 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final users = [];
+  List<UserModal> users = [];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -25,7 +26,26 @@ class _HomePageState extends State<HomePage> {
           onPressed: () async {
             await APIs.auth.signOut();
             await GoogleSignIn().signOut();
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (context) => const LoginPage()));
           },
+        ),
+        appBar: AppBar(
+          title: const Text("We Chat"),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (ctx) => ProfileScreen(
+                        user: users[0],
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.menu))
+          ],
         ),
         body: StreamBuilder(
           stream: APIs.firestore.collection('Users').snapshots(),
@@ -41,22 +61,23 @@ class _HomePageState extends State<HomePage> {
               );
             } else if (snapshot.hasData) {
               final data = snapshot.data?.docs;
-              for (var i in data!) {
-                log("${jsonEncode(i.data())}");
-                users.add(i.data()['name']);
-              }
+              users =
+                  data?.map((e) => UserModal.fromJson(e.data())).toList() ?? [];
               log("Data $data");
-              log("length${data.length}");
+              log("length${data!.length}");
               return ListView.builder(
                 padding: const EdgeInsets.only(top: 10),
                 physics: const BouncingScrollPhysics(),
                 itemCount: users.length,
                 itemBuilder: (context, index) {
-                  return Text(users[index]);
+                  return UserCard(
+                      leading: users[index].image,
+                      subtitle: users[index].about,
+                      title: users[index].name);
                 },
               );
             } else {
-              return Center(
+              return const Center(
                 child: Text("No data available"),
               );
             }

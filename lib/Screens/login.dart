@@ -19,7 +19,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   _signInGoogle() {
     Dialogs.showProgress(context);
-    signInWithGoogle().then((user) {
+    signInWithGoogle().then((user) async {
       Navigator.pop(context);
 
       if (user != null) {
@@ -29,8 +29,19 @@ class _LoginPageState extends State<LoginPage> {
         if (kDebugMode) {
           log("userAdditionalInfo:${user.additionalUserInfo}");
         }
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const HomePage()));
+        if (await APIs.userExists()) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        } else {
+          APIs.createUser().then((value) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          });
+        }
       }
     });
   }
